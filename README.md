@@ -1,3 +1,3 @@
 # Test
 
-This is a test for checking and practicing.
+This is a repository for checking and practicing.
