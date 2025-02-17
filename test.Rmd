@@ -1,0 +1,53 @@
+---
+title: "Test"
+author: "Mengyao"
+date: "2025-02-07"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r message=FALSE}
+setwd("/Users/mengyaow/Desktop/Graduate/MA575/Lab_project/project2")
+
+library(ggplot2)
+library(GGally)
+```
+
+```{r}
+dat_bmw <- read.csv("./BMWpricing_updated.csv")
+colnames(dat_bmw)
+```
+
+```{r}
+#plot(dat_bmw$price)
+
+summary(dat_bmw)
+```
+
+
+#### address missing data
+```{r}
+dat_bmw[dat_bmw$mileage < 0, "mileage"] <- NA
+#dat_bmw[dat_bmw$engine_power == 0, "engine_power"] <- NA
+
+dat_bmw$mileage <- as.numeric(dat_bmw$mileage)
+dat_bmw$engine_power <- as.numeric(dat_bmw$engine_power)
+dat_bmw$price <- as.numeric(dat_bmw$price)
+```
+
+
+#### scatterplot matrix (ggplot2)
+```{r}
+dat_bmw2 <- dat_bmw[,c("price", "mileage", "engine_power")]
+dat_bmw2 <- dat_bmw2[complete.cases(dat_bmw2),]
+ggpairs(dat_bmw2,
+        upper=list(continuous=wrap("points", alpha=0.3, size=0.1)),
+        lower=list(continuous=wrap('cor', size=4))) +
+  labs(title = "Pairs plot: distribution and correlation between price, mileage, and engine power") +
+  theme_bw()
+```
+
